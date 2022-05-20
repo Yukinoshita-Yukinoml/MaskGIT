@@ -50,8 +50,7 @@ def mask_by_random_topk(rng, mask_len, probs, temperature=1.0):
       rng, probs.shape)
   sorted_confidence = jnp.sort(confidence, axis=-1)
   # Obtains cut off threshold given the mask lengths.
-  mask_len.astype("int32")
-  cut_off = jnp.take_along_axis(sorted_confidence, mask_len, axis=-1)
+  cut_off = jnp.take_along_axis(sorted_confidence, mask_len.astype("int32"), axis=-1)
   # Masks tokens with lower confidence.
   masking = (confidence < cut_off)
   return masking
